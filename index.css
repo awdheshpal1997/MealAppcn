@@ -1,0 +1,9 @@
+body {
+    background-color: #f8f9fa;
+  }
+  
+  #mealList {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
