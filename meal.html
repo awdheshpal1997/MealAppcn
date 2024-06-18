@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Meal Details</h1>
+        <div id="mealDetails"></div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Script for fetching and displaying meal details
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const mealId = params.get('id');
+            if (mealId) {
+                const meal = await getMealById(mealId);
+                displayMealDetails(meal);
+            }
+        });
+
+        async function getMealById(id) {
+            const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+            const data = await response.json();
+            return data.meals[0];
+        }
+
+        function displayMealDetails(meal) {
+            const mealDetailsDiv = document.getElementById('mealDetails');
+            mealDetailsDiv.innerHTML = `
+                <div class="card mb-3">
+                    <img src="${meal.strMealThumb}" class="card-img-top" alt="${meal.strMeal}">
+                    <div class="card-body">
+                        <h5 class="card-title">${meal.strMeal}</h5>
+                        <p class="card-text">${meal.strInstructions}</p>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
